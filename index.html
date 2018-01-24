@@ -79,35 +79,79 @@
   <div class="container">
     <h1>TodoList</h1>
 
-    <form>
+    <form onSubmit="submitTodo(); return false">
       <input type="text" id="new-todo" placeholder="What needs to be done?">
     </form>
 
     <ul id="todolist">
       <li class="todo">
-        <input id="todo-1" type="checkbox">
+        <input id="todo-1" type="checkbox" onChange="toggleStatus.bind(this)();">
         <label for="todo-1">Sweep the floor</label>
       </li>
       <li class="todo completed">
-        <input id="todo-2" type="checkbox" checked>
+        <input id="todo-2" type="checkbox" checked="checked" onChange="toggleStatus.bind(this)();">
         <label for="todo-2">Dust the vases</label>
       </li>
     </ul>
     <div class="footer">
-      Todo: <span id="todo-count">1</span> •
-      Done: <span id="completed-count">0</span> •
-      Total: <span id="total-count">1</span>
+      Todo: <span id="todo-count">1111111111</span> •
+      Done: <span id="completed-count">0000000</span> •
+      Total: <span id="total-count">2222222</span>
     </div>
   </div>
 
   <script>
-  	function getTotalTodos(){
+    function submitTodo() {
+      var inputField = document.getElementById("new-todo");
+      var newTodoTitle = inputField.value;
+      createTodo(newTodoTitle);
+
+      inputField.value = null;
+    };
+
+    function createTodo(title){
+      var listItem = document.createElement("li");
+      listItem.className = "todo";
+
+      var checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.id = "todo-" + nextTodoId();
+      checkbox.checked = false;
+      checkbox.onchange = toggleStatus.bind(checkbox);
+      listItem.appendChild(checkbox);
+
+      // create some whitespace to put between the checkbox and the label
+      var space = document.createTextNode(" ");
+      listItem.appendChild(space);
+
+      var label = document.createElement("label");
+      label.htmlFor = checkbox.id;
+      label.innerHTML = title;
+      listItem.appendChild(label);
+
+      var list = document.getElementById("todolist");
+      list.appendChild(listItem);
+
+      updateCounters();
+    };
+
+    function nextTodoId(){
+      return document.getElementsByClassName("todo").length + 1;
+    };
+
+    function toggleStatus(){
+      parentItem = this.parentElement;
+      parentItem.classList.toggle("completed");
+      updateCounters();
+    };
+
+    function getTotalTodos(){
       return document.getElementsByClassName("todo").length;
-    }
+    };
 
     function getTotalCompleted(){
       return document.getElementsByClassName("completed").length;
-    }
+    };
 
     function updateCounters(){
       let totalElement = document.getElementById("total-count");
@@ -117,7 +161,7 @@
       totalElement.innerHTML = getTotalTodos();
       completedElement.innerHTML = getTotalCompleted();
       todoElement.innerHTML = getTotalTodos() - getTotalCompleted();
-    }
+    };
 
     updateCounters();
   </script>
