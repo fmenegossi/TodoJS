@@ -101,7 +101,25 @@
   </div>
 
   <script>
-  	// JavaScript code comes here...
+  	function getTotalTodos(){
+      return document.getElementsByClassName("todo").length;
+    }
+
+    function getTotalCompleted(){
+      return document.getElementsByClassName("completed").length;
+    }
+
+    function updateCounters(){
+      let totalElement = document.getElementById("total-count");
+      let completedElement = document.getElementById("completed-count");
+      let todoElement = document.getElementById("todo-count");
+
+      totalElement.innerHTML = getTotalTodos();
+      completedElement.innerHTML = getTotalCompleted();
+      todoElement.innerHTML = getTotalTodos() - getTotalCompleted();
+    }
+
+    updateCounters();
   </script>
 
 </body>
